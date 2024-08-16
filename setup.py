@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name="help_generator",
-    version="0.1.0",
+    version="0.1.1",
     author="Johan Hagelbäck",
     author_email="johan.hagelback@gmail.com",
     description="Source code help generator",

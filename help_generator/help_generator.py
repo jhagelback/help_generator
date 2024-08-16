@@ -27,6 +27,7 @@ def generate(package_name, filename): # INTERNAL
     pars = []
     rets = []
     idx = 0
+    cname = None
     for r in lines:
         r = r.strip()
         if r.startswith("#"):
@@ -44,7 +45,18 @@ def generate(package_name, filename): # INTERNAL
                 if idx == 2:
                     p = r.replace("# ","").strip()
                     rets.append(p)
+        elif r.startswith("class "):
+            cname = r.replace("class ","").replace(":","").strip()
         elif r.startswith("def ") and "# INTERNAL" not in r:
+            # Class functions
+            if "__init__" in r and cname is not None:
+                # Class definition
+                r = r.replace("__init__","<font color='#85030e'>" + cname + "</font>").replace("self, ","").replace("self,","").replace("(self)","()")
+            elif "self" in r and cname is not None:
+                r = r.replace("def ", "<font color='#85030e'>" + cname + ".</font>").replace("self, ","").replace("self,","").replace("(self)","()")
+            elif "self" not in r and cname is not None:
+                cname = None
+            
             d = ""
             if len(desc) > 0:
                 d = "<br>".join(desc)
